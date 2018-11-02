@@ -14,22 +14,21 @@ type Parser interface {
 	Parse(str string) (data entity.PersonData, err error)
 }
 
-func NewParser() Parser{
+func NewParser() Parser {
 	return &MyCustomParser{}
 }
 
 type MyCustomParser struct{}
 
-
 func (r *MyCustomParser) Parse(str string) (data entity.PersonData, err error) {
 
 	arr := strings.Split(str, ",")
-	if len(arr) != countFieldInStruct  {
-		err =  errors.New("Invalid CSV")
+	if len(arr) != countFieldInStruct {
+		err = errors.New("Invalid CSV")
 		return
 	}
 	data.Id, err = strconv.Atoi(arr[0])
-	if err != nil{
+	if err != nil {
 		return
 	}
 	data.Email = arr[1]
@@ -41,4 +40,3 @@ func (r *MyCustomParser) Parse(str string) (data entity.PersonData, err error) {
 
 	return
 }
-

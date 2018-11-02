@@ -16,7 +16,7 @@ func NewReader(path string, parser Parser, result chan entity.PersonData) Reader
 	return &reader{
 		result: result,
 		path:   path,
-		parser:parser,
+		parser: parser,
 	}
 }
 
@@ -56,4 +56,3 @@ func (r *reader) StartRead() {
 		return
 	}
 }
-
