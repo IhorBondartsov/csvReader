@@ -29,7 +29,7 @@ func main() {
 	rpcClient := jsonrpc.NewClient("http://127.0.0.1:1812/rpc")
 
 	for i := range result {
-		res, err := rpcClient.Call("API.Echo", i)
+		res, err := rpcClient.Call("API.Save", i)
 		if err != nil {
 			fmt.Println(err)
 		}
