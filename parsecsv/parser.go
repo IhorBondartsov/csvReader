@@ -1,11 +1,11 @@
 package parsecsv
 
 import (
+	"fmt"
 	"github.com/IhorBondartsov/csvReader/entity"
-	"github.com/pkg/errors"
+	"regexp"
 	"strconv"
 	"strings"
-	"unicode"
 )
 
 const countFieldInStruct = 4
@@ -15,28 +15,32 @@ type Parser interface {
 }
 
 func NewParser() Parser {
-	return &MyCustomParser{}
+	return &MyCustomParser{
+		reqForNumber:regexp.MustCompile("[0-9]+"),
+	}
 }
 
-type MyCustomParser struct{}
+type MyCustomParser struct{
+	reqForNumber *regexp.Regexp
+}
 
 func (r *MyCustomParser) Parse(str string) (data entity.PersonData, err error) {
-
 	arr := strings.Split(str, ",")
 	if len(arr) != countFieldInStruct {
-		err = errors.New("Invalid CSV")
-		return
+		return entity.PersonData{}, entity.ErrDataMalformed.Error()
 	}
 	data.Id, err = strconv.Atoi(arr[0])
 	if err != nil {
-		return
+		return entity.PersonData{}, entity.ErrInvalidID.Error()
 	}
-	data.Email = arr[1]
-	data.Name = arr[2]
+	data.Name = arr[1]
+	data.Email = arr[2]
 
-	data.MobileNumber = strings.TrimFunc(arr[3], func(r rune) bool {
-		return !unicode.IsNumber(r)
-	})
-
+	result := r.reqForNumber.FindAllString(arr[3], -1)
+	fmt.Println(len(result))
+	if len(result)  == 0 {
+		return entity.PersonData{}, entity.ErrInvalidNumber.Error()
+	}
+	data.MobileNumber = strings.Join(result[:],"")
 	return
 }
