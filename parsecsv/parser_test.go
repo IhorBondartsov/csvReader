@@ -8,7 +8,6 @@ import (
 
 // go test -run=parser_test.go -bench=. -benchmem
 
-
 // This testData have interconnection with testPerson see resultRelation
 var testData = []string{
 	"1,Kirk,ornare@sedtortor.net,(013890) 37420",
@@ -21,33 +20,33 @@ var testData = []string{
 // This testPerson have interconnection with testData see resultRelation
 var testPerson = []entity.PersonData{
 	entity.PersonData{
-		Id:1,
-		Name: "Kirk",
-		Email: "ornare@sedtortor.net",
+		Id:           1,
+		Name:         "Kirk",
+		Email:        "ornare@sedtortor.net",
 		MobileNumber: "01389037420",
 	},
 	entity.PersonData{
-		Id:2,
-		Name: "Cain",
-		Email: "volutpat@semmollisdui.com",
+		Id:           2,
+		Name:         "Cain",
+		Email:        "volutpat@semmollisdui.com",
 		MobileNumber: "0169772245",
 	},
 	entity.PersonData{
-		Id:3,
-		Name: "Geoffrey",
-		Email: "vitae@consectetuermaurisid.co.uk",
+		Id:           3,
+		Name:         "Geoffrey",
+		Email:        "vitae@consectetuermaurisid.co.uk",
 		MobileNumber: "08001111",
 	},
 	entity.PersonData{
-		Id:4,
-		Name: "Walter",
-		Email: "odio.a.purus@sit.edu",
+		Id:           4,
+		Name:         "Walter",
+		Email:        "odio.a.purus@sit.edu",
 		MobileNumber: "01613286656",
 	},
 	entity.PersonData{
-		Id:5,
-		Name: "Armand",
-		Email: "Cras.vulputate@metusvitae.co.uk",
+		Id:           5,
+		Name:         "Armand",
+		Email:        "Cras.vulputate@metusvitae.co.uk",
 		MobileNumber: "08367960064",
 	},
 }
@@ -69,12 +68,11 @@ func BenchmarkParse(b *testing.B) {
 	}
 }
 
-
 func TestParse(t *testing.T) {
 	a := assert.New(t)
 	p := NewParser()
 
-	for k, v := range resultRelation{
+	for k, v := range resultRelation {
 		res, err := p.Parse(k)
 		a.NoError(err)
 		a.Equal(v, res)
@@ -84,13 +82,13 @@ func TestParse(t *testing.T) {
 func TestParseWrongData(t *testing.T) {
 	a := assert.New(t)
 	p := NewParser()
-	wrongData := map[string] error{
+	wrongData := map[string]error{
 		"WRONG ID, Geoffrey,vitae@consectetuermaurisid.co.uk,0800 1111": entity.ErrInvalidID.Error(),
-		"1, Geoffrey,vitae@consectetuermaurisid.co.uk,ddddddd": entity.ErrInvalidNumber.Error(),
+		"1, Geoffrey,vitae@consectetuermaurisid.co.uk,ddddddd":          entity.ErrInvalidNumber.Error(),
 		"1, Geoffrey": entity.ErrDataMalformed.Error(),
 	}
 
-	for k, v := range wrongData{
+	for k, v := range wrongData {
 		res, err := p.Parse(k)
 		a.Error(v, err)
 		a.Equal(entity.PersonData{}, res)

@@ -16,11 +16,11 @@ type Parser interface {
 
 func NewParser() Parser {
 	return &MyCustomParser{
-		reqForNumber:regexp.MustCompile("[0-9]+"),
+		reqForNumber: regexp.MustCompile("[0-9]+"),
 	}
 }
 
-type MyCustomParser struct{
+type MyCustomParser struct {
 	reqForNumber *regexp.Regexp
 }
 
@@ -38,9 +38,9 @@ func (r *MyCustomParser) Parse(str string) (data entity.PersonData, err error) {
 
 	result := r.reqForNumber.FindAllString(arr[3], -1)
 	fmt.Println(len(result))
-	if len(result)  == 0 {
+	if len(result) == 0 {
 		return entity.PersonData{}, entity.ErrInvalidNumber.Error()
 	}
-	data.MobileNumber = strings.Join(result[:],"")
+	data.MobileNumber = strings.Join(result[:], "")
 	return
 }

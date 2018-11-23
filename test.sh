@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# -b benchmark ()
+# -t simple test
 
 go test ./...  -run=parser_test.go -bench=. -benchmem
 

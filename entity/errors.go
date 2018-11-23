@@ -3,6 +3,7 @@ package entity
 import (
 	"errors"
 )
+
 type CustomError int
 
 const (

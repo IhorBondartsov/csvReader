@@ -14,7 +14,7 @@ type ClientForSaver struct {
 	Conn pb.CSVSenderClient
 }
 
-// NewClient create client with connection to server 
+// NewClient create client with connection to server
 func NewConnection(uml string) (*ClientForSaver, error) {
 	conn, err := grpc.Dial(uml, grpc.WithInsecure())
 	if err != nil {
